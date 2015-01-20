@@ -1,0 +1,5 @@
+libpaste-bin-perl (0.1.0-1) precise; urgency=low
+
+  * Stub changelog, built by changelog-generator
+
+ -- Package Builder <packages@niftylogic.com>  Mon, 19 Jan 2015 23:05:18 -0500

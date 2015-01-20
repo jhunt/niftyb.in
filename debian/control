@@ -1,0 +1,19 @@
+Source: libpaste-bin-perl
+Standards-Version: 3.9.3
+Section: perl
+Priority: optional
+Homepage: http://packages.niftylogic.com/perl/Paste-Bin
+Maintainer: Package Monkey <packages@niftylogic.com>
+Build-Depends: debhelper (>= 8),
+               libdancer-perl (>= 1.3113-3),
+               libtest-pod-coverage-perl,
+               perl,
+               perl-modules
+
+Package: libpaste-bin-perl
+Architecture: all
+Description: Paste::Bin
+Depends: libdancer-perl (>= 1.3113-3),
+         perl,
+         perl-modules,
+         ${misc:Depends}
