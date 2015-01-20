@@ -1,0 +1,4 @@
+<h1><%= x.sha1 %></h1>
+<textarea id="cm" xlang="perl">
+<%= x.content %>
+</textarea>

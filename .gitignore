@@ -29,4 +29,6 @@ logs/*.log
 libpeerconnection.log
 perltidy.LOG
 
+root
+
 # vim:ft=conf
