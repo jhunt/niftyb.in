@@ -22,10 +22,10 @@ Build :: Build.PL
 
 ddist: dist
 ddist: dist
-	rename 's/Paste-Bin-v/libpaste-bin-perl_/' *.tar.gz
-	rename 's/Paste-Bin-/libpaste-bin-perl_/' *.tar.gz
+	rename 's/niftybin-v/niftybin_/' *.tar.gz
+	rename 's/niftybin-/niftybin_/' *.tar.gz
 	rename 's/.tar.gz/.orig.tar.gz/' *.tar.gz
-	mv libpaste-bin-perl_*.orig.tar.gz ..
+	mv niftybin_*.orig.tar.gz ..
 
 
 

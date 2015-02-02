@@ -1,4 +1,4 @@
-package Paste::Bin;
+package Niftybin;
 use strict;
 use warnings;
 use Dancer ':syntax';
@@ -85,7 +85,7 @@ true;
 
 =head1 NAME
 
-Paste::Bin - A Dancer Application
+Niftybin - A Dancer Application
 
 =head1 DESCRIPTION
 

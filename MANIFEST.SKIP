@@ -29,3 +29,8 @@ maint
 ^keys/
 ^dev\.*
 ^META.*
+
+
+^root/.*
+^debian/.*
+^niftybin-.*

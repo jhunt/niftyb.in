@@ -31,4 +31,10 @@ perltidy.LOG
 
 root
 
+debian/niftybin
+debian/niftybin-server
+debian/*.substvars
+debian/*.log
+debian/files
+
 # vim:ft=conf

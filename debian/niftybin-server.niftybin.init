@@ -1,0 +1,95 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          niftybin
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: pastebin
+# Description:       a small, lightweight pastebin
+### END INIT INFO
+
+set -e
+
+STARMAN=/usr/bin/starman
+STARMAN_OPTS="-l 127.0.0.1:8080"
+STARMAN_PIDF="/var/run/niftybin.pid";
+PSGI=/usr/share/niftybin/niftybin.psgi
+
+test -x $STARMAN || exit 0
+test -f $PSGI    || exit 0
+
+if test -f /etc/default/niftybin; then
+	. /etc/default/niftybin
+fi
+
+STARMAN_BIN=$(basename $STARMAN)
+STARMAN_OPTS="$STARMAN_OPTS --daemonize --pid $STARMAN_PIDF $PSGI"
+
+. /lib/lsb/init-functions
+
+restart() {
+	echo "Restarting niftybin"
+	start-stop-daemon --stop --retry 30 --pidfile $STARMAN_PIDF
+	start-stop-daemon --start --pidfile $STARMAN_PIDF \
+		--startas $STARMAN -- $STARMAN_OPTS || true
+}
+
+pidof_starman() {
+	# print out the PID of niftybin if its working
+	if [ -e "$STARMAN_PIDF" ]; then
+		PIDS=$(pidof $STARMAN_BIN | tr ' ' '\n')
+		if echo $PIDS | grep -w $(cat $STARMAN_PIDF); then
+			return 0
+		fi
+	fi
+	return 1
+}
+
+# Sanitize the environment
+export PATH="/usr/sbin:/sbin:/usr/bin:/bin"
+
+case "$1" in
+start)
+	echo "Starting niftybin"
+	start-stop-daemon --start --pidfile $STARMAN_PIDF \
+		--startas $STARMAN -- $STARMAN_OPTS || true
+	;;
+
+stop)
+	echo "Stopping niftybin"
+	$(pidof_starman) && \
+		start-stop-daemon --stop --pidfile $STARMAN_PIDF
+	;;
+
+force-reload|restart)
+	restart
+	;;
+
+try-restart|condrestart)
+	#allow failure for status_of_proc because condrestart is ok if it isn't found
+	set +e
+	status_of_proc -p $STARMAN_PIDF $STARMAN niftybin
+	rc=$?
+	# resume bail on error, after capturing status code
+	set -e
+	if [[ $rc == 0 ]]
+	then
+		restart
+		exit $?
+	fi
+	exit 0
+	;;
+
+status)
+	status_of_proc -p $STARMAN_PIDF $STARMAN niftybin || exit $?
+	exit 0;
+	;;
+
+*)
+	echo "Usage: /etc/init.d/niftybin {start|stop|restart|force-reload|status|try-restart|condrestart}"
+	exit 1
+esac
+
+exit 0
