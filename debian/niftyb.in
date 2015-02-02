@@ -16,7 +16,7 @@ USERNAME=niftybin
 GROUPNAME=niftybin
 STARMAN=/usr/bin/starman
 STARMAN_OPTS="-l 127.0.0.1:8080"
-STARMAN_PIDF="/var/run/niftybin.pid";
+STARMAN_PIDF="/var/run/niftybin/starman.pid";
 PSGI=/usr/share/niftybin/niftybin.psgi
 
 test -x $STARMAN || exit 0
@@ -33,6 +33,9 @@ STARMAN_OPTS="$STARMAN_OPTS --daemonize --pid $STARMAN_PIDF $PSGI"
 
 restart() {
 	echo "Restarting niftybin"
+	mkdir -p /var/run/niftybin
+	chown $USERNAME:$GROUPNAME /var/run/niftybin
+
 	start-stop-daemon --stop --retry 30 --pidfile $STARMAN_PIDF
 	start-stop-daemon --start --pidfile $STARMAN_PIDF \
 		--chuid $USERNAME:$GROUPNAME \
@@ -56,6 +59,9 @@ export PATH="/usr/sbin:/sbin:/usr/bin:/bin"
 case "$1" in
 start)
 	echo "Starting niftybin"
+	mkdir -p /var/run/niftybin
+	chown $USERNAME:$GROUPNAME /var/run/niftybin
+
 	start-stop-daemon --start --pidfile $STARMAN_PIDF \
 		--chuid $USERNAME:$GROUPNAME \
 		--startas $STARMAN -- $STARMAN_OPTS || true
@@ -63,6 +69,9 @@ start)
 
 stop)
 	echo "Stopping niftybin"
+	mkdir -p /var/run/niftybin
+	chown $USERNAME:$GROUPNAME /var/run/niftybin
+
 	$(pidof_starman) && \
 		start-stop-daemon --stop --pidfile $STARMAN_PIDF
 	;;
