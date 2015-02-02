@@ -1,0 +1,117 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use YAML::XS qw/LoadFile/;
+use JSON::API;
+use Pod::Usage;
+use Getopt::Long qw/:config bundling/;
+my %OPTIONS = (
+	url => 'http://niftyb.in'
+);
+GetOptions \%OPTIONS, qw/
+	help|h|?
+	debug|D
+
+	url|U=s
+	anonymous
+	user|u=s
+	pass|p=s
+/ or pod2usage(2);
+pod2usage(1) if $OPTIONS{help};
+
+my $config = -f "$ENV{HOME}/.niftybinrc" ? LoadFile("$ENV{HOME}/.niftybinrc") : {};
+$OPTIONS{$_} ||= $config->{$_} for keys %$config;
+
+my $API = JSON::API->new($OPTIONS{url},
+	debug => $OPTIONS{debug},
+
+	($OPTIONS{anonymous} ? () : (
+		realm => 'niftyb.in',
+		user  => $OPTIONS{user},
+		pass  => $OPTIONS{pass} )),
+);
+
+my (@files, %meta);
+for (@ARGV) {
+	if (m/([a-zA-Z][a-zA-Z0-9._-]*)=(.*)/) {
+		$meta{$1} = $2;
+	} else {
+		push @files, $_;
+	}
+}
+
+if (!@files) {
+	$meta{content} = do { local $/; <>; };
+} elsif (@files == 1) {
+	$meta{filename} = $files[0];
+
+	open my $fh, "<", $files[0] or die "$files[0]: $!\n";
+	$meta{content} = do { local $/; <$fh>; };
+	close $fh;
+
+} else {
+	$meta{content} = "";
+	for (@files) {
+		open my $fh, "<", $_ or die "$_: $!\n";
+		$meta{content} .= "$_:\n----\n";
+		$meta{content} .= do { local $/; <$fh>; };
+		$meta{content} .= "\n\n\n";
+		close $fh;
+	}
+}
+
+my $o = $API->post("/!", \%meta);
+if ($API->was_success) {
+	print "$o->{ok}\n";
+	exit 0;
+}
+print $API->errstr."\n";
+exit 1;
+
+=head1 NAME
+
+niftb.in - niftylogic pastebin submitter
+
+=head1 SYNOPSIS
+
+./some-script 2>&1 | niftyb.in
+
+niftyb.in example*.pl
+
+find . -name '*.cfg' | xargs niftyb.in
+
+niftyb.in meta=data lang=C < main.c
+
+=head1 OPTIONS
+
+=over
+
+=item B<--anonymous>
+
+Never supply Basic Authentication credentials.
+
+=item B<-u>, B<--user> USERNAME
+
+Basic Authentication username.
+
+=item B<-p>, B<--pass> PASSWORD
+
+Basic Authentication password.
+
+=item B<-U>, B<--url> http://niftyb.in
+
+URL to contact.  Defaults to I<http://niftyb.in>.
+
+=back
+
+=head1 CONFIGURATION
+
+If a ~/.niftybinrc file exists, it will be used to fill in
+default options, like B<url>, B<user> and B<pass>.
+
+=head1 AUTHOR
+
+Written by James Hunt B<< <james@jameshunt.us> >>.
+
+=cut
