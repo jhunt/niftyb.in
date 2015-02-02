@@ -6,6 +6,7 @@ Homepage: http://niftyb.in
 Maintainer: Package Monkey <packages@niftylogic.com>
 Build-Depends: debhelper (>= 8),
                libdancer-perl (>= 1.3113-3),
+               libjson-xs-perl,
                libtest-pod-coverage-perl,
                libtest-simple-perl,
                perl,

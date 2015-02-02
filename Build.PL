@@ -40,9 +40,9 @@ my $builder = Module::Build->new(
 	public_files => \%PUBLIC,
 	bin_files    => \%BIN,
 	install_path => {
-		share  => "usr/share/niftyb.in",
-		views  => "usr/share/niftyb.in/views",
-		public => "usr/share/niftyb.in/public",
+		share  => "usr/share/niftybin",
+		views  => "usr/share/niftybin/views",
+		public => "usr/share/niftybin/public",
 		bin    => "usr/bin",
 	},
 );
