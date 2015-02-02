@@ -9,7 +9,6 @@ sub tree_files { $TREE{$File::Find::name} = $File::Find::name if -f };
 
 %TREE = (); find(\&tree_files, "views");  my %VIEWS  = %TREE;
 %TREE = (); find(\&tree_files, "public"); my %PUBLIC = %TREE;
-%TREE = (); find(\&tree_files, "etc");    my %ETC    = %TREE;
 %TREE = (); find(\&tree_files, "bin");    my %BIN    = %TREE;
 
 
@@ -39,13 +38,11 @@ my $builder = Module::Build->new(
 	share_files  => {'niftybin.psgi' => 'niftybin.psgi'},
 	views_files  => \%VIEWS,
 	public_files => \%PUBLIC,
-	etc_files    => \%ETC,
 	bin_files    => \%BIN,
 	install_path => {
 		share  => "usr/share/niftyb.in",
 		views  => "usr/share/niftyb.in/views",
 		public => "usr/share/niftyb.in/public",
-		etc    => "etc",
 		bin    => "usr/bin",
 	},
 );
@@ -53,5 +50,4 @@ my $builder = Module::Build->new(
 $builder->add_build_element('share');
 $builder->add_build_element('views');
 $builder->add_build_element('public');
-$builder->add_build_element('etc');
 $builder->create_build_script();
