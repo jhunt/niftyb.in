@@ -3,7 +3,7 @@
 <head>
 <meta name="charset" value="utf-8">
 <title>niftyb.in</title>
-<link rel="stylesheet" href="<% request.uri_base %>/css/style.css" />
+<link rel="stylesheet" href="<% request.uri_base %>/css/style.css" type="text/css" />
 </head>
 <body>
 <% content %>
