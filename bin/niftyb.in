@@ -7,7 +7,7 @@ use JSON::API;
 use Pod::Usage;
 use Getopt::Long qw/:config bundling/;
 my %OPTIONS = (
-	url => 'http://niftyb.in'
+	url => 'https://niftyb.in'
 );
 GetOptions \%OPTIONS, qw/
 	help|h|?
@@ -20,6 +20,7 @@ GetOptions \%OPTIONS, qw/
 / or pod2usage(2);
 pod2usage(1) if $OPTIONS{help};
 
+$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0;
 my $config = -f "$ENV{HOME}/.niftybinrc" ? LoadFile("$ENV{HOME}/.niftybinrc") : {};
 $OPTIONS{$_} ||= $config->{$_} for keys %$config;
 
