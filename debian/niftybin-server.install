@@ -1,4 +1,5 @@
 niftybin.psgi usr/share/niftybin/
+debian/niftyb.in etc/init.d
 usr/share/man/man3
 usr/share/niftybin
 usr/share/perl5
