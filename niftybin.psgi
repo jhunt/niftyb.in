@@ -1,3 +1,3 @@
 use Dancer;
-use Paste::Bin;
+use Niftybin;
 dance;
