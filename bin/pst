@@ -6,7 +6,7 @@ use warnings;
 use JSON::API;
 
 my $API = JSON::API->new("http://localhost:3000");
-my $o = $API->post("/", {content => do { local $/; <>; }});
+my $o = $API->post("/!", {content => do { local $/; <>; }});
 if ($API->was_success) {
 	print "$o->{ok}\n";
 	exit 0;

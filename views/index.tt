@@ -1,1 +1,22 @@
-niftyb.in
+<div id="x"><kbd><u>niftyb.in</u> <w>~ $</w> help</kbd>
+<div class="content">niftyb.in - pastebin for niftylogic, inc.
+
+
+With niftyb.in, you can
+
+  grab some output,    ./some-script 2&gt;&amp;1 | niftyb.in
+
+  paste a file,        niftyb.in &lt; example.pl
+
+  ... or many,         niftyb.in example*.pl
+
+  maybe via xargs,     find . -name '*.cfg' | xargs niftyb.in
+
+  or with metadata!    niftyb.in META=DATA LANG=C &lt; main.c
+
+
+For more info, check out `man niftyb.in`
+</div>
+<kbd><u>niftyb.in</u> <w>~ $</w> about</kbd>
+<div class="content">Copyright &copy; 2015 James Hunt</div>
+</div>

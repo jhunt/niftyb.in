@@ -43,7 +43,7 @@ get '/' => sub {
 # POST /
 # { content: "...",
 #   key:     "value" ... }
-post '/' => sub {
+post '/!' => sub {
 	my $meta = params;
 	exists $meta->{content}
 		or bail 1, 'bad request' => 400;
@@ -62,18 +62,18 @@ post '/' => sub {
 	$meta->{referer}   = request->referer;
 	$meta->{ua}        = request->agent;
 	DumpFile $path, $meta;
-	$sha1 = substr($sha1, 0, 14);
-	return { ok => request->base.$sha1 };
+	$sha1 = substr($sha1, 0, 10);
+	return { ok => request->base."!$sha1" };
 };
 
-del '/:sha1' => sub {
+del '/!:sha1' => sub {
 	my $path = filepath(params->{sha1}, 1)
 		or send_error "bad request" => 400;
 	unlink $path;
 	return { ok => 'removed' }
 };
 
-get '/:sha1' => sub {
+get '/!:sha1' => sub {
 	my $path = filepath(params->{sha1}, 0);
 	error "got path: $path";
 	my $data = LoadFile($path)

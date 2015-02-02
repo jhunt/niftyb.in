@@ -4,17 +4,9 @@
 <meta name="charset" value="utf-8">
 <title>niftyb.in</title>
 <link rel="stylesheet" href="<% request.uri_base %>/css/style.css" />
-<link rel="stylesheet" href="<% request.uri_base %>/css/codemirror.css" />
 </head>
 <body>
 <% content %>
-<script type="text/javascript" src="<%= request.uri_base %>/js/codemirror.js" /></script>
-<script type="text/javascript">
-var e = document.getElementById('cm');
-console.log(e.getAttribute('xlang'))
-CodeMirror.fromTextArea(e, {
-  theme: 'ambiance'
-});
 </script>
 </body>
 </html>
