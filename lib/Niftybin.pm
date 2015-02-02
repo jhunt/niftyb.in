@@ -12,7 +12,7 @@ set layout => "main";
 set charset => "UTF-8";
 set template => "simple";
 
-our $VERSION = '0.1.2';
+our $VERSION = '0.1.4';
 
 sub bail
 {
