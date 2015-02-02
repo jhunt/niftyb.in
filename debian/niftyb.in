@@ -12,6 +12,8 @@
 
 set -e
 
+USERNAME=niftybin
+GROUPNAME=niftybin
 STARMAN=/usr/bin/starman
 STARMAN_OPTS="-l 127.0.0.1:8080"
 STARMAN_PIDF="/var/run/niftybin.pid";
@@ -33,6 +35,7 @@ restart() {
 	echo "Restarting niftybin"
 	start-stop-daemon --stop --retry 30 --pidfile $STARMAN_PIDF
 	start-stop-daemon --start --pidfile $STARMAN_PIDF \
+		--chuid $USERNAME:$GROUPNAME \
 		--startas $STARMAN -- $STARMAN_OPTS || true
 }
 
@@ -54,6 +57,7 @@ case "$1" in
 start)
 	echo "Starting niftybin"
 	start-stop-daemon --start --pidfile $STARMAN_PIDF \
+		--chuid $USERNAME:$GROUPNAME \
 		--startas $STARMAN -- $STARMAN_OPTS || true
 	;;
 

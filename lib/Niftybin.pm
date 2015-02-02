@@ -5,6 +5,7 @@ use Dancer ':syntax';
 use Digest::SHA qw/sha1_hex/;
 use YAML::XS qw/LoadFile DumpFile/;
 
+set confdir => "/etc/niftyb.in";
 set serializer => 'JSON';
 set appname => "niftyb.in";
 set layout => "main";
