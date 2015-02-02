@@ -6,6 +6,10 @@ use Digest::SHA qw/sha1_hex/;
 use YAML::XS qw/LoadFile DumpFile/;
 
 set serializer => 'JSON';
+set appname => "niftyb.in";
+set layout => "main";
+set charset => "UTF-8";
+set template => "simple";
 
 our $VERSION = '0.1.2';
 
